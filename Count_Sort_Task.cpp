@@ -17,17 +17,17 @@ void sortWords(std::vector<std::string>& words) {
 	{
 		countArr[i] += countArr[i - 1];
 	}
-	std::vector<std::string> res(words.size());
-	for (int i = words.size() - 1; i >= 0; i--)
-	{
-		std::string curr = words[i];
-		int ind = --countArr[curr[0] - 'a'];
-		res[ind] = curr;
-	}
-	for (size_t i = 0; i < words.size(); i++)
-	{
-		words[i] = res[i];
-	}
+	int index = 0;
+    	while(index < words.size()){
+        	int correctIndex = count[words[index][0] - 'a'] - 1;
+
+       	 	if (index == correctIndex || count[words[index][0] - 'a'] <= index)
+                	index++;
+        	else {
+            		std::swap(words[index], words[correctIndex]);
+            		count[words[correctIndex][0] - 'a']--;
+        	}
+    	}
 }
 
 int main()
