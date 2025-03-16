@@ -1,0 +1,75 @@
+
+struct ListNode {
+	int val;
+	ListNode* next;
+	ListNode() : val(0), next(nullptr) {}
+	ListNode(int x) : val(x), next(nullptr) {}
+	ListNode(int x, ListNode* next) : val(x), next(next) {}
+	
+};
+
+ListNode* addTwoNumbers(ListNode* first, ListNode* second, int toAdd) {
+	if (!first && !second) {
+		if (toAdd != 0) {
+			return new ListNode(toAdd);
+		}
+		return nullptr;
+	}
+	if (!first) {
+		if (second->val + toAdd == 10) {
+			ListNode* toReturn = new ListNode(0);
+			toReturn->next = addTwoNumbers(first, second->next, 1);
+			return toReturn;
+		}
+		else {
+			ListNode* toReturn = new ListNode(second->val + toAdd);
+			toReturn->next = addTwoNumbers(first, second->next, 0);
+			return toReturn;
+		}
+	}
+	else if (!second) {
+		if (first->val + toAdd == 10) {
+			ListNode* toReturn = new ListNode(0);
+			toReturn->next = addTwoNumbers(first->next, second, 1);
+			return toReturn;
+		}
+		else {
+			ListNode* toReturn = new ListNode(first->val + toAdd);
+			toReturn->next = addTwoNumbers(first->next, second, 0);
+			return toReturn;
+		}
+	}
+	else {
+		int number = first->val + second->val + toAdd;
+		if (number >= 10) {
+			ListNode* toReturn = new ListNode(number % 10);
+			toReturn->next = addTwoNumbers(first->next, second->next, 1);
+			return toReturn;
+		}
+		else {
+			ListNode* toReturn = new ListNode(number);
+			toReturn->next = addTwoNumbers(first->next, second->next, 0);
+			return toReturn;
+		}
+	}
+}
+
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+	return addTwoNumbers(l1, l2, 0);
+}
+
+
+int main() {
+	ListNode* first = new ListNode(9);
+	first->next = new ListNode(9);
+	first->next->next = new ListNode(9);
+	first->next->next->next = new ListNode(9);
+	first->next->next->next->next = new ListNode(9);
+	first->next->next->next->next->next = new ListNode(9);
+	first->next->next->next->next->next->next = new ListNode(9);
+	ListNode* second = new ListNode(9);
+	second->next = new ListNode(9);
+	second->next->next = new ListNode(9);
+	second->next->next->next = new ListNode(9);
+	ListNode* res = addTwoNumbers(first, second);
+}
