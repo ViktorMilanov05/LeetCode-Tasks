@@ -1,0 +1,37 @@
+#include <iostream>
+
+/*Given a binary search tree (BST), find the lowest common ancestor (LCA) node of two given nodes in the BST.
+
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q 
+as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”*/
+
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
+TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+    if (!root) { return nullptr; }
+    if (root->val < std::min(p->val, q->val)) {
+        return lowestCommonAncestor(root->right, p, q);
+    }
+    else if (root->val > std::max(p->val, q->val)) {
+        return lowestCommonAncestor(root->left, p, q);
+    }
+    return root;
+}
+
+int main()
+{
+    TreeNode* root = new TreeNode(6);
+    root->left = new TreeNode(2);
+    root->right = new TreeNode(8);
+    root->left->left = new TreeNode(0);
+    root->left->right = new TreeNode(4);
+    root->left->right->left = new TreeNode(3);
+    root->left->right->right = new TreeNode(5);
+    TreeNode* res = lowestCommonAncestor(root, root->left, root->left->right);
+}
+
